@@ -7,7 +7,10 @@ class EmptyPromise : public QObject {
     Q_OBJECT
 
 public:
-    explicit EmptyPromise(QObject *parent = nullptr) : QObject(parent){};
+    explicit EmptyPromise(QObject *parent = nullptr) : QObject(parent) {
+        connect(this, &EmptyPromise::success, this, &QObject::deleteLater);
+        connect(this, &EmptyPromise::error, this, &QObject::deleteLater);
+    };
 
     template <typename Functor> EmptyPromise &onSuccess(Functor func) {
         connect(this, &EmptyPromise::success, this, func);

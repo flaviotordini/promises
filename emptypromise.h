@@ -20,6 +20,11 @@ public:
         connect(this, &EmptyPromise::error, this, func);
         return *this;
     }
+    template <typename Functor> EmptyPromise &finally(Functor func) {
+        connect(this, &EmptyPromise::success, this, func);
+        connect(this, &EmptyPromise::error, this, func);
+        return *this;
+    }
 
 signals:
     void success();

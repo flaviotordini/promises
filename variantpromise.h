@@ -20,6 +20,11 @@ public:
         connect(this, &VariantPromise::error, this, func);
         return *this;
     }
+    template <typename Functor> VariantPromise &finally(Functor func) {
+        connect(this, &VariantPromise::success, this, func);
+        connect(this, &VariantPromise::error, this, func);
+        return *this;
+    }
 
 signals:
     void success(QVariant result);

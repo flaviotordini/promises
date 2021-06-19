@@ -8,27 +8,26 @@ class VariantPromise : public QObject {
 
 public:
     explicit VariantPromise(QObject *parent = nullptr) : QObject(parent) {
-        connect(this, &VariantPromise::success, this, &QObject::deleteLater);
-        connect(this, &VariantPromise::error, this, &QObject::deleteLater);
+        connect(this, &VariantPromise::resolve, this, &QObject::deleteLater);
+        connect(this, &VariantPromise::reject, this, &QObject::deleteLater);
     };
 
-    template <typename Functor> VariantPromise &onSuccess(Functor func) {
-        connect(this, &VariantPromise::success, this, func);
+    template <typename Function> VariantPromise &then(Function func) {
+        connect(this, &VariantPromise::resolve, this, func);
         return *this;
     }
-    template <typename Functor> VariantPromise &onError(Functor func) {
-        connect(this, &VariantPromise::error, this, func);
+    template <typename Function> VariantPromise &onFailed(Function func) {
+        connect(this, &VariantPromise::reject, this, func);
         return *this;
     }
-    template <typename Functor> VariantPromise &finally(Functor func) {
-        connect(this, &VariantPromise::success, this, func);
-        connect(this, &VariantPromise::error, this, func);
+    template <typename Function> VariantPromise &finally(Function func) {
+        connect(this, &VariantPromise::destroyed, this, func);
         return *this;
     }
 
 signals:
-    void success(QVariant result);
-    void error(const QString &message);
+    void resolve(QVariant result);
+    void reject(const QString &message);
 };
 
 #endif // VARIANTPROMISE_H

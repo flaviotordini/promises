@@ -21,8 +21,7 @@ public:
         return *this;
     }
     template <typename Functor> EmptyPromise &finally(Functor func) {
-        connect(this, &EmptyPromise::success, this, func);
-        connect(this, &EmptyPromise::error, this, func);
+        connect(this, &EmptyPromise::destroyed, this, func);
         return *this;
     }
 

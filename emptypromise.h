@@ -8,16 +8,16 @@ class EmptyPromise : public QObject {
 
 public:
     explicit EmptyPromise(QObject *parent = nullptr) : QObject(parent) {
-        connect(this, &EmptyPromise::success, this, &QObject::deleteLater);
-        connect(this, &EmptyPromise::error, this, &QObject::deleteLater);
+        connect(this, &EmptyPromise::resolve, this, &QObject::deleteLater);
+        connect(this, &EmptyPromise::reject, this, &QObject::deleteLater);
     };
 
-    template <typename Functor> EmptyPromise &onSuccess(Functor func) {
-        connect(this, &EmptyPromise::success, this, func);
+    template <typename Functor> EmptyPromise &then(Functor func) {
+        connect(this, &EmptyPromise::resolve, this, func);
         return *this;
     }
-    template <typename Functor> EmptyPromise &onError(Functor func) {
-        connect(this, &EmptyPromise::error, this, func);
+    template <typename Functor> EmptyPromise &onFailed(Functor func) {
+        connect(this, &EmptyPromise::reject, this, func);
         return *this;
     }
     template <typename Functor> EmptyPromise &finally(Functor func) {
@@ -26,8 +26,8 @@ public:
     }
 
 signals:
-    void success();
-    void error(const QString &message);
+    void resolve();
+    void reject(const QString &message);
 };
 
 #endif // EMPTYPROMISE_H

@@ -13,10 +13,6 @@ public:
         connect(this, &BasePromise::reject, this, &QObject::deleteLater);
     };
 
-    template <typename Function> BasePromise &then(Function func) {
-        connect(this, &BasePromise::resolve, this, func);
-        return *this;
-    }
     template <typename Function> BasePromise &onFailed(Function func) {
         connect(this, &BasePromise::reject, this, func);
         return *this;
@@ -34,6 +30,12 @@ signals:
 template <class T> class Promise : public BasePromise {
 public:
     explicit Promise(QObject *parent = nullptr) : BasePromise(parent) {}
+
+    template <typename Function> BasePromise &then(Function func) {
+        connect(this, &BasePromise::resolve, this, [this, func] { func(data); });
+        return *this;
+    }
+
     void resolve(T value) {
         data = value;
         BasePromise::resolve();

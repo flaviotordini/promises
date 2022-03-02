@@ -33,6 +33,7 @@ signals:
 
 template <class T> class Promise : public BasePromise {
 public:
+    explicit Promise(QObject *parent = nullptr) : BasePromise(parent) {}
     void resolve(T value) {
         data = value;
         BasePromise::resolve();

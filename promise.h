@@ -35,7 +35,7 @@ template <class T> class Promise : public BasePromise {
 public:
     void resolve(T value) {
         data = value;
-        resolve();
+        BasePromise::resolve();
     }
     T result() const { return data; }
 

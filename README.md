@@ -23,5 +23,5 @@ myAsyncFunction().then([](auto result) {
   qWarning() << "Error!" << errorMessage;
 }).finally([] {
   // optionally do something in both cases
-};
+});
 ```

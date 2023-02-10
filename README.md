@@ -1,8 +1,8 @@
 # Qt Promises
 
-Very simple Promise implementation for Qt. The main idea is to uses QObject features (i.e. signals, deleteLater) to implement promises.
+Very simple Promise implementation for Qt. The main idea is to use QObject features (i.e. signal and slots, deleteLater) to implement promises.
 
-I wrote these in Qt 5 times. I'm not sure wheter Qt 6 has something comparable, in terms of simplicity and lightness.
+I wrote these in Qt 5 times. I'm not sure wheter Qt 6 has something comparable, in terms of simplicity and lightness. Anyway, these work great in Qt 6 too.
 
 The main class is Promise. It is template-based. Use it like:
 
@@ -16,7 +16,6 @@ Promise<QString> *myAsyncFunction() {
   myObj.doSomething();
   return promise;
 }
-
 
 myAsyncFunction().then([](auto result) {
   qDebug() << "Success!" << result;

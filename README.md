@@ -1,6 +1,6 @@
 # Qt Promises
 
-Very simple Promise implementation for Qt. The main idea is to use QObject features (i.e. signal and slots, deleteLater) to implement promises.
+A very simple Javascript-style Promise implementation for Qt. The main idea is to use QObject features (i.e. signal and slots, deleteLater) to implement promises.
 
 I wrote this Promise implementation in Qt 5 times. I'm not sure whether Qt 6 has something comparable in terms of simplicity and lightness. Anyway, it works great in Qt 6 too and I'm using it in my apps at https://flavio.tordini.org
 

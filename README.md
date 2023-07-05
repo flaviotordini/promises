@@ -32,3 +32,11 @@ myAsyncFunction().then([](auto result) {
   // optionally do something in both cases
 });
 ```
+
+## EmptyPromise
+
+`EmptyPromise` can be used when there is no data as the result of the async operation.
+
+## VariantPromise
+
+`VariantPromise` is not template-based but QVariant-based. It can be useful when the data result is a QVariant or any QVariant-supported data type, especially if there is a need to avoid templates for any reason.

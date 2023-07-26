@@ -1,6 +1,6 @@
 {
     "$schema": "http://qt.io/schema/extension-schema-v1#",
-    "title": "Http",
+    "title": "Promises",
     "extensionType": [
         "library"
     ],

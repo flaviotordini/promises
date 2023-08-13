@@ -11,7 +11,7 @@ public:
     explicit BasePromise(QObject *parent = nullptr) : QObject(parent) {
         connect(this, &BasePromise::resolve, this, &QObject::deleteLater);
         connect(this, &BasePromise::reject, this, &QObject::deleteLater);
-    };
+    }
 
     template <typename Function> BasePromise &onFailed(Function func) {
         connect(this, &BasePromise::reject, this, func);

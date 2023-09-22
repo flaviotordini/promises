@@ -44,6 +44,48 @@ public:
 
     T result() const { return data; }
 
+    static Promise<QList<T>> &all(QList<Promise<T> *> promises) {
+        QPointer<Promise<QList<T>>> promise = new Promise<QList<T>>;
+        auto count = new int(promises.size());
+        auto results = new QList<T>;
+        results->reserve(promises.size());
+        for (auto p : promises) {
+            p.then([count, results, promise, p](auto result) {
+                 if (!promise) return;
+                 results << result;
+                 if (results->size() == count) {
+                     promise->resolve(results);
+                     delete count, delete results;
+                 }
+             }).onFailed([count, results, promise](auto msg) {
+                if (!promise) return;
+                promise->reject(msg);
+                delete count, delete results;
+            });
+        }
+        return *promise;
+    }
+
+    static Promise<QList<T>> &allSettled(QList<Promise<T> *> promises) {
+        QPointer<Promise<QList<T>>> promise = new Promise<QList<T>>;
+        auto count = new int(promises.size());
+        auto outcomes = new QList<T>;
+        outcomes->reserve(promises.size());
+        for (auto p : promises) {
+            p.then([count, outcomes, promise, p](auto result) {
+                 if (!promise) return;
+                 outcomes << result;
+                 if (outcomes->size() == count) {
+                     promise->resolve(outcomes);
+                     delete count, delete outcomes;
+                 }
+             }).onFailed([count, outcomes, promise](auto msg) {
+                if (!promise) return;
+            });
+        }
+        return *promise;
+    }
+
 private:
     T data;
 };

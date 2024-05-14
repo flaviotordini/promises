@@ -81,6 +81,8 @@ public:
                  }
              }).onFailed([count, outcomes, promise](auto msg) {
                 if (!promise) return;
+                promise->reject(msg);
+                delete count, delete outcomes;
             });
         }
         return *promise;
